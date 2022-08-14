@@ -1,0 +1,86 @@
+
+## commitlint
+### O que é commitlint
+
+github: https://github.com/conventional-changelog/commitlint
+site: https://commitlint.js.org/#/?id=getting-started
+
+commitlint verifica se suas mensagens de confirmação atendem ao formato de commit convencional.
+https://www.conventionalcommits.org/en/v1.0.0/
+
+Em geral, o padrão é o mesmo:
+
+code
+type(scope?): subject  #scope is optional; multiple scopes are supported (current delimiter options: "/", "\" and ",")
+
+Getting started
+
+# Install commitlint cli and conventional config
+npm install --save-dev @commitlint/{config-conventional,cli}
+#or
+yarn add  @commitlint/config-conventional @commitlint/cli-D
+
+# For Windows:
+npm install --save-dev @commitlint/config-conventional @commitlint/cli
+
+# Configure commitlint to use conventional config (terminal)
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+
+## Husk
+site: https://typicode.github.io/husky/#/
+
+Modern native git hooks made easy
+Husky improves your commits and more 🐶 woof!
+You can use it to lint your commit messages, run tests, lint code, etc... when you commit or push. Husky supports all Git hooks.
+
+code
+yarn add husky -d
+yarn husky install
+
+Para ter automaticamente os ganchos Git ativados após a instalação, edite package.json
+code
+// package.json
+{
+  "private": true, // ← your package is private, you only need postinstall
+  "scripts": {
+    "postinstall": "husky install"
+  }
+}
+code
+
+Add hook
+code
+cat <<EEE > .husky/commit-msg
+#!/bin/sh
+. "\$(dirname "\$0")/_/husky.sh"
+
+npx --no -- commitlint --edit "\${1}"
+EEE
+code
+
+Make hook executable
+
+code
+chmod a+x .husky/commit-msg
+code
+
+## Commitizen
+Github: https://github.com/commitizen/cz-cli
+
+Quando você se compromete com o Commitizen, você será solicitado a preencher os 
+campos de commit necessários no momento do commit. Não há mais espera até mais 
+tarde para um gancho de commit git para executar e rejeitar o seu commit (embora 
+isso ainda possa ser útil). Não há mais escavação através CONTRIBUTING.md para 
+encontrar qual é o formato preferido. Obtenha feedback instantâneo sobre sua 
+formatação de mensagem de confirmação e seja solicitado para campos obrigatórios.
+
+code
+npm install -g commitizen
+
+#or
+yarn add commitizen -D
+code
+
+code
+yarn commitizen init cz-conventional-changelog --yarn --dev --exact
+code
